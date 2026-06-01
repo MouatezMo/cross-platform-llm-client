@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 // import 'firebase_options.dart';
@@ -206,6 +207,24 @@ class PrivateLMApp extends StatelessWidget {
         themeMode: themeMode,
         initialRoute: AppRoutes.home,
         getPages: AppPages.pages,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en'),
+          Locale('ar'),
+        ],
+        localeResolutionCallback: (deviceLocale, supportedLocales) {
+          if (deviceLocale == null) return const Locale('en');
+          for (final locale in supportedLocales) {
+            if (locale.languageCode == deviceLocale.languageCode) {
+              return locale;
+            }
+          }
+          return const Locale('en');
+        },
         builder: (ctx, child) => MediaQuery(
           data: MediaQuery.of(ctx).copyWith(
             textScaler: TextScaler.linear(scale),
