@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controllers/task_controller.dart';
 import '../core/colors.dart';
 import '../models/task_model.dart';
+import '../utils/text_direction_utils.dart';
 
 class TaskView extends GetView<TaskController> {
   const TaskView({super.key});
@@ -66,7 +67,7 @@ class TaskView extends GetView<TaskController> {
             child: Icon(_statusIcon(task.status), color: statusColor, size: 18)),
           const SizedBox(width: 14),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(task.goal, style: GoogleFonts.inter(fontSize: 15, fontWeight: FontWeight.w500, color: isDark ? Colors.white : Colors.black), maxLines: 2, overflow: TextOverflow.ellipsis),
+            DirectionalText(task.goal, style: GoogleFonts.inter(fontSize: 15, fontWeight: FontWeight.w500, color: isDark ? Colors.white : Colors.black), maxLines: 2, overflow: TextOverflow.ellipsis),
             const SizedBox(height: 4),
             Text('${task.steps.length} steps · ${task.status.toUpperCase()}', style: GoogleFonts.inter(fontSize: 12, color: statusColor, fontWeight: FontWeight.w500)),
           ])),
@@ -87,7 +88,7 @@ class TaskView extends GetView<TaskController> {
             child: Icon(Icons.arrow_back_ios_new_rounded, size: 14, color: isDark ? Colors.white : Colors.black)),
         ),
         const SizedBox(width: 12),
-        Expanded(child: Text(task.goal, style: GoogleFonts.inter(fontSize: 17, fontWeight: FontWeight.w600, color: isDark ? Colors.white : Colors.black), maxLines: 2, overflow: TextOverflow.ellipsis)),
+        Expanded(child: DirectionalText(task.goal, style: GoogleFonts.inter(fontSize: 17, fontWeight: FontWeight.w600, color: isDark ? Colors.white : Colors.black), maxLines: 2, overflow: TextOverflow.ellipsis)),
       ])),
       Divider(height: 0.5, color: isDark ? Colors.white.withValues(alpha: 0.06) : Colors.black.withValues(alpha: 0.06)),
 
@@ -153,19 +154,19 @@ class TaskView extends GetView<TaskController> {
         Row(children: [
           _stepStatusIcon(context, step.status, isDark),
           const SizedBox(width: 10),
-          Expanded(child: Text(step.description, style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: isDark ? Colors.white : Colors.black))),
+          Expanded(child: DirectionalText(step.description, style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: isDark ? Colors.white : Colors.black))),
         ]),
         if (step.command != null) ...[
           const SizedBox(height: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(color: isDark ? const Color(0xFF2C2C2E) : const Color(0xFFF2F2F7), borderRadius: BorderRadius.circular(8)),
-            child: Text(step.command!, style: GoogleFonts.firaCode(fontSize: 12, color: isDark ? const Color(0xFF0A84FF) : AppColors.primary)),
+            child: DirectionalText(step.command!, style: GoogleFonts.firaCode(fontSize: 12, color: isDark ? const Color(0xFF0A84FF) : AppColors.primary)),
           ),
         ],
         if (step.output != null && step.output!.isNotEmpty) ...[
           const SizedBox(height: 6),
-          Text(step.output!, style: GoogleFonts.inter(fontSize: 12, color: statusColor), maxLines: 3, overflow: TextOverflow.ellipsis),
+          DirectionalText(step.output!, style: GoogleFonts.inter(fontSize: 12, color: statusColor), maxLines: 3, overflow: TextOverflow.ellipsis),
         ],
       ]),
     );
@@ -203,7 +204,7 @@ class TaskView extends GetView<TaskController> {
     final textCtrl = TextEditingController();
     showDialog(context: context, builder: (ctx) => AlertDialog(
       title: Text('New Task', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
-      content: TextField(
+      content: DirectionalTextField(
         controller: textCtrl, autofocus: true, maxLines: 3,
         style: GoogleFonts.inter(fontSize: 15),
         decoration: const InputDecoration(hintText: 'Describe what you want the AI to do…'),
