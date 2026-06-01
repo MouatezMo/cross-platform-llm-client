@@ -10,6 +10,7 @@ import '../models/ai_model.dart';
 import '../services/download_service.dart';
 import '../services/inference_service.dart';
 import '../services/local_image_service.dart';
+import '../utils/text_direction_utils.dart';
 
 class ModelView extends GetView<ModelController> {
   const ModelView({super.key});
@@ -1322,7 +1323,7 @@ class ModelView extends GetView<ModelController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Obx(
-              () => TextField(
+              () => DirectionalTextField(
                 controller: keyController,
                 obscureText: obscureKey.value,
                 style: GoogleFonts.firaCode(fontSize: 13),
@@ -1441,7 +1442,7 @@ class ModelView extends GetView<ModelController> {
                     child: _buildErrorBox(context, error),
                   );
                 }),
-                TextField(
+                DirectionalTextField(
                   controller: cloud.customNameController,
                   decoration: const InputDecoration(
                     labelText: 'Provider name',
@@ -1451,7 +1452,7 @@ class ModelView extends GetView<ModelController> {
                   ),
                 ),
                 const SizedBox(height: 14),
-                TextField(
+                DirectionalTextField(
                   controller: cloud.customBaseUrlController,
                   decoration: const InputDecoration(
                     labelText: 'Base URL',
@@ -1463,7 +1464,7 @@ class ModelView extends GetView<ModelController> {
                 ),
                 const SizedBox(height: 14),
                 Obx(
-                  () => TextField(
+                  () => DirectionalTextField(
                     controller: cloud.customApiKeyController,
                     obscureText: obscureCustomKey.value,
                     decoration: InputDecoration(
@@ -1488,7 +1489,7 @@ class ModelView extends GetView<ModelController> {
                   ),
                 ),
                 const SizedBox(height: 14),
-                TextField(
+                DirectionalTextField(
                   controller: cloud.customModelController,
                   decoration: const InputDecoration(
                     labelText: 'Model ID',
@@ -1637,7 +1638,7 @@ class ModelView extends GetView<ModelController> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  TextField(
+                  DirectionalTextField(
                     onChanged: (value) =>
                         cloud.searchByProvider[provider.id] = value,
                     style: GoogleFonts.inter(fontSize: 15),
@@ -2979,7 +2980,7 @@ class _SheetTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: border),
       ),
-      child: TextField(
+      child: DirectionalTextField(
         controller: controller,
         keyboardType: keyboardType,
         maxLines: maxLines,
