@@ -127,7 +127,6 @@ class DirectionalSelectableText extends StatelessWidget {
         data,
         style: style,
         textAlign: textAlign ?? TextAlign.start,
-        overflow: overflow ?? TextOverflow.clip,
         maxLines: maxLines,
         showCursor: showCursor,
         focusNode: focusNode,
