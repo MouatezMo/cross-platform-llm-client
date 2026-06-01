@@ -35,17 +35,17 @@ class _TypingIndicatorState extends State<TypingIndicator>
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Align(
-      alignment: Alignment.centerLeft,
+      alignment: AlignmentDirectional.centerStart,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        margin: const EdgeInsetsDirectional.symmetric(horizontal: 16, vertical: 3),
+        padding: const EdgeInsetsDirectional.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
           color: isDark ? const Color(0xFF1C1C1E) : const Color(0xFFF2F2F7),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-            bottomRight: Radius.circular(20),
-            bottomLeft: Radius.circular(6),
+          borderRadius: const BorderRadiusDirectional.only(
+            topStart: Radius.circular(20),
+            topEnd: Radius.circular(20),
+            bottomEnd: Radius.circular(20),
+            bottomStart: Radius.circular(6),
           ),
         ),
         child: Row(
