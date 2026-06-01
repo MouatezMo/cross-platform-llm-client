@@ -11,6 +11,7 @@ import '../services/local_image_service.dart';
 import '../services/device_info_service.dart';
 import '../services/device_info_native.dart' as platform_info;
 import '../ffi/sd_ffi_bindings.dart';
+import '../utils/text_direction_utils.dart';
 import 'log_view.dart';
 
 class SettingsView extends GetView<SettingsController> {
@@ -126,7 +127,7 @@ class SettingsView extends GetView<SettingsController> {
                                 fontSize: 13,
                                 color: Theme.of(context).hintColor)),
                         const SizedBox(height: 10),
-                        TextField(
+                        DirectionalTextField(
                           controller: controller.globalSystemPromptController,
                           minLines: 3,
                           maxLines: 6,
