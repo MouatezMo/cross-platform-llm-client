@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../utils/text_direction_utils.dart';
 
 class ThoughtDisclosure extends StatefulWidget {
   final String thought;
@@ -171,10 +172,13 @@ class _ThoughtDisclosureState extends State<ThoughtDisclosure>
             axisAlignment: -1.0,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-              child: MarkdownBody(
-                data: widget.thought.trim(),
-                selectable: true,
-                styleSheet: widget.styleSheet,
+              child: Directionality(
+                textDirection: detectTextDirection(widget.thought.trim()),
+                child: MarkdownBody(
+                  data: widget.thought.trim(),
+                  selectable: true,
+                  styleSheet: widget.styleSheet,
+                ),
               ),
             ),
           ),
