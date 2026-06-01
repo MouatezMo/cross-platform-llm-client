@@ -103,7 +103,7 @@ class DirectionalSelectableText extends StatelessWidget {
   final int? maxLines;
   final bool showCursor;
   final FocusNode? focusNode;
-  final SelectionControls? selectionControls;
+  final TextSelectionControls? selectionControls;
   final bool enableInteractiveSelection;
 
   const DirectionalSelectableText(
@@ -276,4 +276,3 @@ class _DirectionalTextFieldState extends State<DirectionalTextField> {
     );
   }
 }
-
