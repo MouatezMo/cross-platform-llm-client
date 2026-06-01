@@ -12,6 +12,7 @@ import '../services/inference_service.dart';
 import '../services/local_image_service.dart';
 import '../ffi/sd_ffi_bindings.dart';
 import '../utils/thought_parser.dart';
+import '../utils/text_direction_utils.dart';
 import '../widgets/attachment_preview.dart';
 import '../widgets/chat_bubble.dart';
 import '../widgets/thought_disclosure.dart';
@@ -136,10 +137,10 @@ class ChatView extends GetView<ChatController> {
             : controller.sessions.firstWhereOrNull((s) => s.id == sid)?.title ??
                 'Chat';
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 16),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(title,
+            DirectionalText(title,
                 style: GoogleFonts.inter(
                     fontWeight: FontWeight.w600,
                     fontSize: 17,
@@ -385,7 +386,7 @@ class ChatView extends GetView<ChatController> {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: _sep(context)),
         ),
-        child: Text(text,
+        child: DirectionalText(text,
             style: GoogleFonts.inter(
                 fontSize: 13,
                 color: isDark
@@ -409,7 +410,7 @@ class ChatView extends GetView<ChatController> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
       child: Align(
-        alignment: Alignment.centerLeft,
+        alignment: AlignmentDirectional.centerStart,
         child: Container(
           constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width * 0.78),
@@ -417,10 +418,10 @@ class ChatView extends GetView<ChatController> {
           decoration: BoxDecoration(
             color: _aiBubble(context),
             borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-                bottomLeft: Radius.circular(6)),
+                topStart: Radius.circular(20),
+                topEnd: Radius.circular(20),
+                bottomEnd: Radius.circular(20),
+                bottomStart: Radius.circular(6)),
           ),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -435,14 +436,19 @@ class ChatView extends GetView<ChatController> {
                     isThinking: parts.isThinking,
                     styleSheet: _thoughtMd(context, isDark)),
               if (_hasPrintable(answer))
-                Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-                  Expanded(
-                      child: MarkdownBody(
-                          data: answer,
-                          selectable: true,
-                          styleSheet: _streamMd(context, isDark))),
-                  _BlinkingCursor(color: Theme.of(context).hintColor),
-                ]),
+                Directionality(
+                  textDirection: detectTextDirection(answer),
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Expanded(
+                            child: MarkdownBody(
+                                data: answer,
+                                selectable: true,
+                                styleSheet: _streamMd(context, isDark))),
+                        _BlinkingCursor(color: Theme.of(context).hintColor),
+                      ]),
+                ),
             ],
             if (hasText && !isImageGen)
               Obx(() {
@@ -661,7 +667,7 @@ class ChatView extends GetView<ChatController> {
                       : const Color(0xFFF2F2F7),
                   borderRadius: BorderRadius.circular(22),
                 ),
-                child: TextField(
+                child: DirectionalTextField(
                   controller: controller.textController,
                   onChanged: (v) => controller.inputText.value = v,
                   maxLines: 5,
@@ -674,7 +680,7 @@ class ChatView extends GetView<ChatController> {
                     hintStyle: GoogleFonts.inter(
                         fontSize: 15, color: Theme.of(context).hintColor),
                     border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(
+                    contentPadding: const EdgeInsetsDirectional.symmetric(
                         horizontal: 18, vertical: 10),
                     isDense: true,
                   ),
@@ -812,7 +818,7 @@ class ChatView extends GetView<ChatController> {
                           color: active
                               ? _appleBlue(ctx)
                               : Theme.of(ctx).hintColor)),
-                  title: Text(s.title,
+                  title: DirectionalText(s.title,
                       style: GoogleFonts.inter(
                           fontSize: 15,
                           fontWeight:
