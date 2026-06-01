@@ -20,6 +20,7 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:largeHeap="true"
+        android:supportsRtl="true"
         android:extractNativeLibs="true">
         <activity
             android:name=".MainActivity"
