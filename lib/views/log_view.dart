@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../core/colors.dart';
 import '../services/app_log_service.dart';
+import '../utils/text_direction_utils.dart';
 
 class LogView extends StatelessWidget {
   const LogView({super.key});
@@ -159,7 +160,7 @@ class LogView extends StatelessWidget {
                         Text(_formatTime(entry.timestamp), style: GoogleFonts.inter(fontSize: 12, color: Theme.of(context).hintColor)),
                       ]),
                       const SizedBox(height: 10),
-                      SelectableText(entry.message, style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w500, color: isDark ? Colors.white : Colors.black)),
+                      DirectionalSelectableText(entry.message, style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w500, color: isDark ? Colors.white : Colors.black)),
                       if (entry.details != null && entry.details!.isNotEmpty) ...[
                         const SizedBox(height: 8),
                         Container(
@@ -169,7 +170,7 @@ class LogView extends StatelessWidget {
                             color: isDark ? const Color(0xFF2C2C2E) : const Color(0xFFF2F2F7),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: SelectableText(entry.details!, style: GoogleFonts.firaCode(fontSize: 11, color: Theme.of(context).hintColor)),
+                          child: DirectionalSelectableText(entry.details!, style: GoogleFonts.firaCode(fontSize: 11, color: Theme.of(context).hintColor)),
                         ),
                       ],
                     ]),
