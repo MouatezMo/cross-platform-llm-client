@@ -4,6 +4,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/chat_message.dart';
 import '../utils/thought_parser.dart';
+import '../utils/text_direction_utils.dart';
 import 'attachment_preview.dart';
 import 'image_viewer.dart';
 import 'thought_disclosure.dart';
@@ -32,7 +33,9 @@ class ChatBubble extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
       child: Align(
-        alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+        alignment: isUser
+            ? AlignmentDirectional.centerEnd
+            : AlignmentDirectional.centerStart,
         child: Container(
           constraints: BoxConstraints(
             maxWidth: MediaQuery.of(context).size.width * 0.78,
@@ -43,8 +46,8 @@ class ChatBubble extends StatelessWidget {
             borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(20),
               topRight: const Radius.circular(20),
-              bottomLeft: Radius.circular(isUser ? 20 : 6),
-              bottomRight: Radius.circular(isUser ? 6 : 20),
+              bottomStart: Radius.circular(isUser ? 20 : 6),
+              bottomEnd: Radius.circular(isUser ? 6 : 20),
             ),
           ),
           child: Column(
@@ -90,7 +93,7 @@ class ChatBubble extends StatelessWidget {
 
               // Message content
               if (isUser)
-                SelectableText(
+                DirectionalSelectableText(
                   visibleContent,
                   style: GoogleFonts.inter(
                     fontSize: 15,
@@ -100,10 +103,13 @@ class ChatBubble extends StatelessWidget {
                   ),
                 )
               else if (answerContent.isNotEmpty)
-                MarkdownBody(
-                  data: answerContent,
-                  selectable: true,
-                  styleSheet: _markdownStyle(context),
+                Directionality(
+                  textDirection: detectTextDirection(answerContent),
+                  child: MarkdownBody(
+                    data: answerContent,
+                    selectable: true,
+                    styleSheet: _markdownStyle(context),
+                  ),
                 ),
 
               // File attachment
