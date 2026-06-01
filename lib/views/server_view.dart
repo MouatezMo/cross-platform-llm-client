@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import '../controllers/server_controller.dart';
 import '../core/colors.dart';
+import '../utils/text_direction_utils.dart';
 
 class ServerView extends GetView<ServerController> {
   const ServerView({super.key});
@@ -81,7 +82,7 @@ class ServerView extends GetView<ServerController> {
                 value: controller.useApiKey.value, onChanged: (v) { controller.useApiKey.value = v; controller.saveSettings(); }),
               Divider(height: 0.5, indent: 16, color: isDark ? Colors.white.withValues(alpha: 0.06) : Colors.black.withValues(alpha: 0.06)),
               Padding(padding: const EdgeInsets.all(14), child: Row(children: [
-                Expanded(child: TextField(
+                Expanded(child: DirectionalTextField(
                   controller: controller.apiKeyCtrl,
                   onChanged: (v) => controller.apiKey.value = v,
                   onSubmitted: (_) => controller.saveSettings(),
@@ -217,7 +218,7 @@ class ServerView extends GetView<ServerController> {
   }
 
   Widget _settingField(String label, TextEditingController ctrl, ValueChanged<String> onChanged, ValueChanged<String> onSubmitted) {
-    return TextField(
+    return DirectionalTextField(
       controller: ctrl,
       onChanged: onChanged,
       onSubmitted: onSubmitted,
@@ -228,7 +229,7 @@ class ServerView extends GetView<ServerController> {
   Widget _urlRow(BuildContext context, bool isDark, String label, String? url) {
     return Padding(padding: const EdgeInsets.only(bottom: 8), child: Row(children: [
       SizedBox(width: 54, child: Text(label, style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600))),
-      Expanded(child: SelectableText(url ?? 'Not available', maxLines: 1, style: GoogleFonts.firaCode(fontSize: 12, color: Theme.of(context).hintColor))),
+      Expanded(child: DirectionalSelectableText(url ?? 'Not available', maxLines: 1, style: GoogleFonts.firaCode(fontSize: 12, color: Theme.of(context).hintColor))),
       IconButton(tooltip: 'Copy', onPressed: url == null ? null : () => controller.copyText(url, '$label URL'),
         icon: Icon(Icons.copy_outlined, size: 16, color: Theme.of(context).hintColor)),
     ]));
