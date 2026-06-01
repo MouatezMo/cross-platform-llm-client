@@ -417,7 +417,7 @@ class ChatView extends GetView<ChatController> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
             color: _aiBubble(context),
-            borderRadius: const BorderRadius.only(
+            borderRadius: const BorderRadiusDirectional.only(
                 topStart: Radius.circular(20),
                 topEnd: Radius.circular(20),
                 bottomEnd: Radius.circular(20),
