@@ -250,26 +250,28 @@ class _DirectionalTextFieldState extends State<DirectionalTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: detectTextDirection(_controller.text),
-      child: TextField(
-        controller: _controller,
-        focusNode: _focusNode,
-        style: widget.style,
-        decoration: widget.decoration,
-        maxLines: widget.maxLines,
-        minLines: widget.minLines,
-        maxLength: widget.maxLength,
-        onChanged: widget.onChanged,
-        onSubmitted: widget.onSubmitted,
-        autofocus: widget.autofocus,
-        obscureText: widget.obscureText,
-        keyboardType: widget.keyboardType,
-        textInputAction: widget.textInputAction,
-        enabled: widget.enabled,
-        expands: widget.expands,
-        textAlign: widget.textAlign,
-      ),
+    final dir = detectTextDirection(_controller.text);
+    final effectiveAlign = widget.textAlign == TextAlign.start
+        ? (dir == TextDirection.rtl ? TextAlign.right : TextAlign.start)
+        : widget.textAlign;
+    return TextField(
+      controller: _controller,
+      focusNode: _focusNode,
+      style: widget.style,
+      decoration: widget.decoration,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
+      maxLength: widget.maxLength,
+      onChanged: widget.onChanged,
+      onSubmitted: widget.onSubmitted,
+      autofocus: widget.autofocus,
+      obscureText: widget.obscureText,
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
+      enabled: widget.enabled,
+      expands: widget.expands,
+      textAlign: effectiveAlign,
+      textDirection: TextDirection.ltr,
     );
   }
 }
