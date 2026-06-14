@@ -252,7 +252,7 @@ class _DirectionalTextFieldState extends State<DirectionalTextField> {
   Widget build(BuildContext context) {
     final dir = detectTextDirection(_controller.text);
     final effectiveAlign = widget.textAlign == TextAlign.start
-        ? (dir == TextDirection.rtl ? TextAlign.right : TextAlign.start)
+        ? (dir == TextDirection.rtl ? TextAlign.right : TextAlign.left)
         : widget.textAlign;
     return TextField(
       controller: _controller,
@@ -271,7 +271,6 @@ class _DirectionalTextFieldState extends State<DirectionalTextField> {
       enabled: widget.enabled,
       expands: widget.expands,
       textAlign: effectiveAlign,
-      textDirection: TextDirection.ltr,
     );
   }
 }
