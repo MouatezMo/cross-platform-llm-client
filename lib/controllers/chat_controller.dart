@@ -668,13 +668,26 @@ class ChatController extends GetxController {
         }
       } else {
         final cloud = Get.find<CloudService>();
+        final settings = Get.find<SettingsController>();
+        final temperature = _hive.getSetting<double>(
+              AppConstants.keyTemperature,
+              defaultValue: AppConstants.defaultTemperature,
+            ) ??
+            AppConstants.defaultTemperature;
+        final maxTokens = _hive.getSetting<int>(
+              AppConstants.keyMaxTokens,
+              defaultValue: AppConstants.defaultMaxTokens,
+            ) ??
+            AppConstants.defaultMaxTokens;
         final apiMessages = [
           {'role': 'system', 'content': _effectiveSystemPrompt},
           ...history,
         ];
         rawResponse = await cloud.sendMessage(
           messages: apiMessages,
-          imageBase64: imgBase64, // already encoded before clearImage()
+          imageBase64: imgBase64,
+          temperature: temperature,
+          maxTokens: maxTokens,
           onToken: (token) {
             streamingResponse.value += token;
             trackThoughtTiming();
