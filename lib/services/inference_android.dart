@@ -391,7 +391,7 @@ class InferenceEngine {
         tokenCount++;
         onToken?.call(clean);
         _idleTimer?.cancel();
-        _idleTimer = Timer(const Duration(seconds: 5), () {
+        _idleTimer = Timer(const Duration(seconds: 15), () {
           print('[Inference] Idle timeout — $tokenCount tokens');
           finish(buffer.toString());
         });
@@ -407,7 +407,7 @@ class InferenceEngine {
     );
 
     // Prefill timeout
-    _idleTimer = Timer(const Duration(seconds: 60), () {
+    _idleTimer = Timer(const Duration(seconds: 120), () {
       if (tokenCount == 0) {
         finish(
             'ERROR: Model did not respond. Try a smaller model or shorter conversation.');
@@ -415,7 +415,7 @@ class InferenceEngine {
     });
 
     // Hard timeout
-    Future.delayed(const Duration(seconds: 180), () {
+    Future.delayed(const Duration(seconds: 300), () {
       if (!completed) {
         final partial = buffer.toString();
         finish(partial.isEmpty ? 'ERROR: Generation timed out.' : partial);
@@ -492,12 +492,12 @@ class InferenceEngine {
           tokenCount++;
           buffer.write(text);
           onToken?.call(text);
-          _idleTimer?.cancel();
-          _idleTimer = Timer(const Duration(seconds: 8), () {
-            print(
-                '[Inference] LiteRT-LM multimodal idle timeout - $tokenCount chunks');
-            finish(buffer.toString());
-          });
+_idleTimer?.cancel();
+        _idleTimer = Timer(const Duration(seconds: 20), () {
+          print(
+              '[Inference] LiteRT-LM multimodal idle timeout - $tokenCount chunks');
+          finish(buffer.toString());
+        });
         },
         onDone: () {
           _liteConversationHasMessages = true;
@@ -511,13 +511,13 @@ class InferenceEngine {
         },
       );
 
-      _idleTimer = Timer(const Duration(seconds: 90), () {
+      _idleTimer = Timer(const Duration(seconds: 120), () {
         if (tokenCount == 0) {
           finish('ERROR: LiteRT-LM multimodal model did not respond.');
         }
       });
 
-      Future.delayed(const Duration(seconds: 240), () {
+      Future.delayed(const Duration(seconds: 360), () {
         if (!completed) {
           final partial = buffer.toString();
           finish(partial.isEmpty
@@ -548,7 +548,7 @@ class InferenceEngine {
         buffer.write(text);
         onToken?.call(text);
         _idleTimer?.cancel();
-        _idleTimer = Timer(const Duration(seconds: 5), () {
+        _idleTimer = Timer(const Duration(seconds: 15), () {
           print('[Inference] LiteRT-LM idle timeout - $tokenCount chunks');
           finish(buffer.toString());
         });
@@ -564,13 +564,13 @@ class InferenceEngine {
       },
     );
 
-    _idleTimer = Timer(const Duration(seconds: 60), () {
+    _idleTimer = Timer(const Duration(seconds: 120), () {
       if (tokenCount == 0) {
         finish('ERROR: LiteRT-LM model did not respond. Try a smaller model.');
       }
     });
 
-    Future.delayed(const Duration(seconds: 180), () {
+    Future.delayed(const Duration(seconds: 300), () {
       if (!completed) {
         final partial = buffer.toString();
         finish(partial.isEmpty
